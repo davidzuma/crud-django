@@ -1,5 +1,5 @@
 """
-URL configuration for finantial_project project.
+URL configuration for financial_project project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
