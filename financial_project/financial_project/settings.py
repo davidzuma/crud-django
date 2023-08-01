@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'financial_api',
-    'financial_project'
+    'financial_project',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -74,10 +76,11 @@ WSGI_APPLICATION = 'financial_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+USER = os.getenv('USER_DB')
+PASSWORD = os.getenv('PASSWORD_DB')
 # postgres db
 DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2', 'NAME': 'finantial-db',
-                         'USER': 'davidzuma', 'PASSWORD': 'abcd',
+                         'USER': USER, 'PASSWORD': PASSWORD,
                          'HOST': 'localhost', 'PORT': 5432}}
 
 
