@@ -1,48 +1,77 @@
-from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APIClient
+from rest_framework.test import APITestCase
 from .models import FinancialData
+from .serializers import FinancialDataSerializer
 
 
-class FinancialMeasureViewTest(TestCase):
+class FinancialMeasureDataViewTest(APITestCase):
     def setUp(self):
-        self.client = APIClient()
-        self.financial_measure_1 = "Revenue"
-        self.financial_measure_2 = "Assets"
-        self.data_1 = {
-            "financial_measure": self.financial_measure_1,
-            "date": "2023-08-02T12:00:00Z",
-            "amount": 1000.0,
-            "currency": "USD",
-            "unit": "Million"
-        }
-        self.data_2 = {
-            "financial_measure": self.financial_measure_2,
-            "date": "2023-08-02T12:00:00Z",
-            "amount": 500.0,
-            "currency": "USD",
-            "unit": "Million"
-        }
-        FinancialData.objects.create(**self.data_1)
-        FinancialData.objects.create(**self.data_2)
+        self.financial_data = FinancialData.objects.create(
+            financial_measure="Revenue",
+            date="2023-08-02T12:00:00Z",
+            amount=1000.0,
+            currency="USD",
+            unit="Million"
+        )
 
-    def test_get_financial_measure_data(self):
-        url = reverse('financial-measure', kwargs={'financial_measure': self.financial_measure_1})
+    def test_get_financial_measure_data_missing_param(self):
+        url = reverse('financial-measure')
         response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['financial_measure'], self.financial_measure_1)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_get_nonexistent_financial_measure_data(self):
-        url = reverse('financial-measure', kwargs={'financial_measure': 'NonExistentMeasure'})
-        response = self.client.get(url)
+    def test_get_financial_measure_data_invalid_param(self):
+        url = reverse('financial-measure')
+        response = self.client.get(url, {'financial_measure': 'NonExistentMeasure'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 0)
 
-    def test_get_multiple_financial_measure_data(self):
-        url = reverse('financial-measure', kwargs={'financial_measure': self.financial_measure_2})
-        response = self.client.get(url)
+
+class FinancialMeasureModelViewTest(APITestCase):
+    def setUp(self):
+        self.financial_data = FinancialData.objects.create(
+            financial_measure="Revenue",
+            date="2023-08-02T12:00:00Z",
+            amount=1000.0,
+            currency="USD",
+            unit="Million"
+        )
+        self.url = reverse('financial-measure', kwargs={'pk': self.financial_data.pk})
+
+    def test_get_financial_measure_data(self):
+        response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['financial_measure'], self.financial_measure_2)
+        expected_data = FinancialDataSerializer(self.financial_data).data
+        self.assertEqual(response.data, expected_data)
+
+    def test_get_financial_measure_data_not_found(self):
+        url = reverse('financial-measure', kwargs={'pk': 99999})  # Non-existent pk
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_patch_financial_measure_data(self):
+        data_to_update = {
+            "amount": 1500.0
+        }
+        response = self.client.patch(self.url, data_to_update)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.financial_data.refresh_from_db()
+        self.assertEqual(self.financial_data.amount, 1500.0)
+
+    def test_patch_financial_measure_data_not_found(self):
+        url = reverse('financial-measure', kwargs={'pk': 99999})  # Non-existent pk
+        data_to_update = {
+            "amount": 1500.0
+        }
+        response = self.client.patch(url, data_to_update)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_delete_financial_measure_data(self):
+        response = self.client.delete(self.url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(FinancialData.objects.filter(pk=self.financial_data.pk).exists())
+
+    def test_delete_financial_measure_data_not_found(self):
+        url = reverse('financial-measure', kwargs={'pk': 99999})  # Non-existent pk
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
