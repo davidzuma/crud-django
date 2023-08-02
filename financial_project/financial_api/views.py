@@ -6,15 +6,36 @@ from .models import FinancialData
 from rest_framework import status
 from django.db.models import Max, Min
 
+from .serializers import FinancialDataSerializer
 
-class FinancialMeasureView(APIView):
+
+class FinancialMeasureListView(APIView):
     def get(self, request):
-        financial_measure_query = FinancialData.objects.values_list('financial_measure').distinct()
-        financial_measures = [measure[0] for measure in financial_measure_query]
-        return Response(financial_measures)
-
-    def post(self, request):
-        financial_measure = request.data["financial_measure"]
+        financial_measure = request.GET.get('financial_measure')
         financial_measure_data = list(FinancialData.objects.filter(financial_measure=financial_measure).values())
         return Response(financial_measure_data)
+
+
+class FinancialMeasureModelView(APIView):
+    def get(self, request, pk):
+        financial_measure_data = FinancialData.objects.get(id=int(pk))
+        serializer = FinancialDataSerializer(financial_measure_data)
+        return Response(serializer.data)
+
+    def post(self, request):
+        """Create an instance"""
+        # financial_measure = request.data["financial_measure"]
+        # financial_measure_data = list(FinancialData.objects.filter(financial_measure=financial_measure).values())
+        # return Response(financial_measure_data)
+        pass
+
+    def patch(self, request):
+        """fecha y finalmeasure"""
+        """Update an element see if here es patch or put"""
+        pass
+
+    def delete(self, request,pk):
+        """Delete an element"""
+        FinancialData.objects.get(pk=pk).delete()
+
 
