@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "admin")
 DEBUG = bool(os.environ.get("DEBUG", default=1))
 
 # WARNING: Having this line commented means you are running locally and not with docker
-# ALLOWED_HOSTS =  os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
