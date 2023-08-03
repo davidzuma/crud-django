@@ -15,8 +15,24 @@ financial data provided.
 
 ### Set up
 
-Pre requirements: You will need to have Docker installed, if not please
+Pre requirements:
+
+* You will need to have Docker installed, if not please
 download [here](https://www.docker.com/products/docker-desktop/) and install it.
+* You will need an env file called env.dev with the following content:
+
+```
+DEBUG=1
+SECRET_KEY=admin
+DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+SQL_ENGINE=django.db.backends.postgresql
+SQL_DATABASE=financial_project_dev
+SQL_USER=financial_project
+SQL_PASSWORD=financial_project
+SQL_HOST=db
+SQL_PORT=5432
+DATABASE=postgres
+```
 
 First, we want build the docker compose image. You can see the file to make this build [here](docker-compose.yml).  
 For this we move to the path that we have the [conding_challenge folder](./) (in our console/terminal/bash).
