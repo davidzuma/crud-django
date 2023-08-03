@@ -15,16 +15,23 @@ class FinancialMeasuresListView(APIView):
         financial_measures = list(FinancialData.objects.values_list("financial_measure", flat=True).distinct())
         return Response(financial_measures)
 
-    list(FinancialData.objects.values_list("financial_measure", flat=True).distinct())
+    def post(self, request):
+        serializer = FinancialDataSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class FinancialMeasureDataView(APIView):
     def get(self, request):
+        """get the finance data of the financial measure given in the url"""
         financial_measure = request.GET.get('financial_measure')
 
         if not financial_measure:
             raise ParseError(
-                "The 'financial_measure' parameter is missing or empty. You can go to http://127.0.0.1:8000/api/financialmeasures to check the different finantial measures")
+                "The 'financial_measure' parameter is missing or empty. "
+                "You can go to http://127.0.0.1:8000/api/financialmeasures to check different financial measures")
 
         financial_measure_data = list(FinancialData.objects.filter(financial_measure=financial_measure).values())
         return Response(financial_measure_data)

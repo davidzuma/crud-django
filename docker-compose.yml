@@ -2,10 +2,10 @@ version: '3.8'
 
 services:
   web:
-    build: ./app
+    build: ./financial_project
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./app/:/usr/src/app/
+      - ./financial_project/:/usr/src/financial_project/
     ports:
       - 8000:8000
     env_file:
@@ -18,9 +18,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=hello_django
-      - POSTGRES_PASSWORD=hello_django
-      - POSTGRES_DB=hello_django_dev
+      - POSTGRES_USER=financial_project
+      - POSTGRES_PASSWORD=financial_project
+      - POSTGRES_DB=financial_project_dev
 
 volumes:
   postgres_data:
