@@ -15,6 +15,8 @@ financial data provided.
 
 ### Set up
 
+-----------
+
 Pre requirements:
 
 * You will need to have Docker installed, if not please
@@ -79,6 +81,7 @@ You can make the request [Postman](https://www.postman.com/), [Insomnia](https:/
 
 ### Example
 
+__________
 We are going to give you and example of usage using the browser.
 
 First we are going to see the different finance measures we have and how we
