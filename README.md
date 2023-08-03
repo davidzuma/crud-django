@@ -25,19 +25,27 @@ For this we move to the path that we have the [conding_challenge folder](./) (in
 
 After that, we can build the docker image. Remember to have your docker app (docker daemon) running.
 
-```docker-compose build```
+```bash 
+docker-compose build
+```
 
-And, we can up it, it will create to docker containers, one for the API and one for the database.
+We can use docker-compose up; it will create to docker containers, one for the API and one for the database.
 
-```docker-compose up -d```
+```bash
+docker-compose up -d
+```
 
 Once our containers are running you can create the table in our database with the following  command:
 
-```docker-compose run web python manage.py migrate```
+```bash
+docker-compose run web python manage.py migrate
+```
 
-After that, you can fill the database with the provided or any data with the same json structure.
+After that, you can fill the database with the provided data or any data with the same json structure.
 
-```docker-compose run web python manage.py load_financial_data data/financial_data.json```
+```bash
+docker-compose run web python manage.py load_financial_data data/financial_data.json
+```
 
 Now, you have your API ready.
 
@@ -73,5 +81,5 @@ Finally, we can see, update and delete a record in the database: http://localhos
 
 Enjoy it!
 
-Please, see technical documentation [here](financial_project/docs/technical_notes.md).
+Please, see [technical notes](financial_project/docs/technical_notes.md) to know more about the technical part of the project.
 
