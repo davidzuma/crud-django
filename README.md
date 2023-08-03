@@ -100,5 +100,5 @@ Finally, we can see, update and delete a record in the database: http://localhos
 
 Enjoy it!
 
-Please, see [technical notes](financial_project/docs/technical_notes.md) to know more about the technical part of the project.
+Please, see [technical notes](financial_project/docs/technical_notes.md) to know more about the technical part of the project (it also includes future improvements).
 

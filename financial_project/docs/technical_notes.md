@@ -12,7 +12,10 @@ These notes are intended to explain technical decisions made in this project.
   and [migrations,](../financial_api/migrations) but you can still see the SQL code to create and update
   the database with the following command:
 
-```docker-compose run web python manage.py sqlmigrate financial_api 0001``` where 0001 is the number of the migration.
+```bash
+docker-compose run web python manage.py sqlmigrate financial_api 0001
+```
+where 0001 is the number of the migration.
 
 * PostgreSQL: Most popular choice for various projects, especially in web development. It is scalable and open source.
 * Pandas: Most popular choice for data manipulation.
@@ -47,3 +50,14 @@ With this structure, we can add as many different financial measures to our tabl
           "2019-12-31": 74318.8
         }}
 ```
+## Testing
+
+The app includes [unit tests](../financial_api/tests.py) for the different views and methods. You can run the tests with the followin command:
+```bash
+docker-compose run web python manage.py test
+```
+## Future Improvements
+* Add company column to the table/model: The current schema is prepared to have company column. This is important to be able to make analysis and compare between companies
+* Add dashboard with streamlit: Streamlit is an easy-to-use python library to make visuals. We have data and the API, so we need the frontend.
+* Add endpoint to look for dates: The api is focused on giving information of the financial measure, but I think it is important too to have the data of all financial measures in a current date.  
+* Include the unit tests in a CI/CD pipeline, for example, with GitHub actions.
