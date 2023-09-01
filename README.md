@@ -30,9 +30,9 @@ DATABASE=postgres
 ```
 
 First, we want build the docker compose image. You can see the file to make this build [here](docker-compose.yml).  
-For this we move to the path that we have the [conding_challenge folder](./) (in our console/terminal/bash).
+For this we move to the path that we have the [project folder](./) (in our console/terminal/bash).
 
-```cd path_to_alpas-coding-challenge```
+```cd financial-analysis```
 
 After that, we can build the docker image. Remember to have your docker app (docker daemon) running.
 
