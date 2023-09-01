@@ -1,12 +1,5 @@
-# alpas-coding-challenge
+# financial-analysis
 
-This repo is a technical assessment proposed by Alpas.
-
-The assessment is solved in [financial_project](financial_project), it is intended to be a proof of the skills of David
-Zumaquero (Me) in python programming language in a short period of time.
-
-You can find a description of the assessment proposed by Alpas
-in [challenge description](financial_project/docs/Python Engineer Coding Challenge.pdf)
 
 ## Financial Project
 
