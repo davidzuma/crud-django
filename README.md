@@ -1,10 +1,10 @@
-# financial-analysis
+# CRUD-django
 
 
 ## Financial Project
 
 The aim of this project is to build a data model embedded in a database and an API to perform CRUD operations using the
-financial data provided.
+financial data.
 
 ### Set up
 
